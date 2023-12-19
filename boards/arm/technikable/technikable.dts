@@ -34,6 +34,38 @@
 		};
 	};
 
+	keys {
+		compatible = "gpio-keys";
+		wakeup_key: wakeup_key {
+			gpios = <&gpio1 4 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
+		};
+	};
+	
+	behaviors {
+		hw_soft_off: hw_soft_off {
+			compatible = "zmk,behavior-soft-off";
+			#binding-cells = <0>;
+		};
+	};
+	
+	soft_off_behavior_key {
+		compatible = "zmk,behavior-key";
+		bindings = <&hw_soft_off>;
+		key = <&wakeup_key>;
+	};
+
+	wakeup_source: wakeup_source {
+		compatible = "zmk,wakeup-trigger-key";
+		
+		trigger = <&wakeup_key>;
+		wakeup-source;
+	};
+
+        soft_off_wakers {
+		compatible = "zmk,soft-off-wakeup-sources";
+		wakeup-sources = <&wakeup_source>;
+	};
+
 	vbatt: vbatt {
 		compatible = "zmk,battery-nrf-vddh";
 		label = "BATTERY";
@@ -81,6 +113,7 @@
 	kscan: kscan {
 		compatible = "zmk,kscan-gpio-matrix";
 		label = "KSCAN";
+		wakeup-source;
 		debounce-press-ms = <1>;
 		debounce-release-ms = <5>;
 
