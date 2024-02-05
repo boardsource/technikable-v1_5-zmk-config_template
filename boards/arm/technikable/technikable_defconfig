@@ -10,6 +10,9 @@ CONFIG_ARM_MPU=y
 # enable GPIO
 CONFIG_GPIO=y
 
+# Enable soft-off by default
+CONFIG_ZMK_PM_SOFT_OFF=y
+
 CONFIG_ZMK_SLEEP=y
 
 CONFIG_USE_DT_CODE_PARTITION=y
